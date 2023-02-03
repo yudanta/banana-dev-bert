@@ -9,7 +9,7 @@ class  PromptInput(BaseModel):
 
 http_api = FastAPI()
 
-http_api.get("/healthcheck")
+@http_api.get("/healthcheck")
 async def healthcheck():
     gpu = False 
     out = subprocess.run("nvidia-smi", shell=True)
@@ -21,7 +21,7 @@ async def healthcheck():
         "gpu": gpu
     }
 
-http_api.post("/")
+@http_api.post("/")
 async def inference(prompt: PromptInput):
     try:
         output = user_model.inference(prompt)

@@ -2,3 +2,5 @@ transformers
 accelerate
 fastapi
 uvicorn
+banana-dev
+python-dotenv
