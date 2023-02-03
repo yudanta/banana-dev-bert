@@ -23,6 +23,8 @@ async def healthcheck():
 
 @http_api.post("/")
 async def inference(prompt: PromptInput):
+    output = {}
+    
     try:
         output = user_model.inference(prompt)
     except Exception as e:
