@@ -1,0 +1,1 @@
+test deploy bert model in banana-dev environment
