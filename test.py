@@ -12,5 +12,5 @@ payload = {
     "prompt": "Paris is the [MASK] of France."
 }
 
-out = banana.run(api_key, model_key, json.dumps(payload))
+out = banana.run(api_key, model_key, payload)
 print(out)

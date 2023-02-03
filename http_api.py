@@ -3,6 +3,12 @@ from pydantic import  BaseModel
 import subprocess
 import app as user_model
 import  uvicorn
+import logging
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+
+# init model first  
+user_model.init()
 
 class  PromptInput(BaseModel):
     prompt: str = ""
@@ -24,11 +30,14 @@ async def healthcheck():
 @http_api.post("/")
 async def inference(prompt: PromptInput):
     output = {}
+
+    logging.info(prompt.dict())
     
     try:
         output = user_model.inference(prompt.dict())
+        logging.info(output)
     except Exception as e:
-        print(e)
+        logging.error(str(e))
 
     return output
 

@@ -1,5 +1,8 @@
+import logging
 from transformers import pipeline
 import torch 
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 def init():
     global model 
@@ -11,11 +14,13 @@ def inference(model_inputs: dict) -> dict:
     global model 
 
     prompt = model_inputs.get("prompt", None)
-    if prompt ==  None:
+    logging.info(prompt)
+    if prompt is  None:
         return {
             "msg": "No prompt provided"
         }
 
     result = model(prompt)
+    logging.info(result)
     
     return result
