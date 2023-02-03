@@ -26,7 +26,7 @@ async def inference(prompt: PromptInput):
     output = {}
     
     try:
-        output = user_model.inference(prompt)
+        output = user_model.inference(prompt.dict())
     except Exception as e:
         print(e)
 
