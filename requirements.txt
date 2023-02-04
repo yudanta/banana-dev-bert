@@ -1,6 +1,12 @@
+# app requirements
 transformers
 accelerate
 fastapi
 uvicorn
 banana-dev
 python-dotenv
+
+# external requirements
+isort
+black
+ruff

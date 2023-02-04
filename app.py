@@ -1,26 +1,27 @@
-import logging
+import torch
 from transformers import pipeline
-import torch 
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+from decorators import logger, timeit
 
+
+@timeit
 def init():
-    global model 
+    logger.info("initalizing the model...")
+    global model
 
     device = 0 if torch.cuda.is_available() else -1
-    model = pipeline("fill-mask", model='bert-base-uncased', device=device)
+    model = pipeline("fill-mask", model="bert-base-uncased", device=device)
+    logger.info("initializing model done!")
 
+
+@timeit
 def inference(model_inputs: dict) -> dict:
-    global model 
+    global model
 
     prompt = model_inputs.get("prompt", None)
-    logging.info(prompt)
-    if prompt is  None:
-        return {
-            "msg": "No prompt provided"
-        }
+    if prompt is None:
+        return {"msg": "No prompt provided"}
 
     result = model(prompt)
-    logging.info(result)
-    
+
     return result

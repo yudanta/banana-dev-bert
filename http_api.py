@@ -1,45 +1,44 @@
-from fastapi  import FastAPI
-from pydantic import  BaseModel
 import subprocess
+
+import uvicorn
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 import app as user_model
-import  uvicorn
-import logging
+from decorators import logger
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
-
-# init model first  
+# init model first
 user_model.init()
 
-class  PromptInput(BaseModel):
+
+class PromptInput(BaseModel):
     prompt: str = ""
+
 
 http_api = FastAPI()
 
+
 @http_api.get("/healthcheck")
 async def healthcheck():
-    gpu = False 
+    gpu = False
     out = subprocess.run("nvidia-smi", shell=True)
-    if out.returncode  == 0:
+    if out.returncode == 0:
         gpu = True
 
-    return {
-        "state": "healthy",
-        "gpu": gpu
-    }
+    return {"state": "healthy", "gpu": gpu}
+
 
 @http_api.post("/")
 async def inference(prompt: PromptInput):
     output = {}
 
-    logging.info(prompt.dict())
-    
     try:
         output = user_model.inference(prompt.dict())
-        logging.info(output)
     except Exception as e:
-        logging.error(str(e))
+        logger.error(str(e))
 
     return output
+
 
 if __name__ == "__main__":
     uvicorn.run(http_api, host="0.0.0.0", port=8000)
