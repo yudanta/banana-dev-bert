@@ -12,6 +12,7 @@ RUN pip3 install -r requirements.txt
 
 # banana boilerrplate
 ADD http_api.py .
+ADD decorators.py .
 
 # add model weight files or download
 ADD download.py .
